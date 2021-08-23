@@ -1,0 +1,97 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdk BuildConfig.compileSdkVersion
+    buildToolsVersion BuildConfig.buildToolsVersion
+
+    defaultConfig {
+        minSdk BuildConfig.minSdkVersion
+        targetSdk BuildConfig.targetSdkVersion
+        versionCode BuildConfig.versionCode
+        versionName BuildConfig.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+        //MultiDex分包方法
+        multiDexEnabled true
+
+        //ARouter路由配置
+//        javaCompileOptions {
+//            annotationProcessorOptions {
+//                arguments = [AROUTER_MODULE_NAME: project.getName()]
+//            }
+//        }
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+        ndk {
+            // 此处必须设置为 armeabi ，TBS 文件浏览不支持其他类型
+            abiFilters 'armeabi-v7a'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    kapt OtherDepend.arout_compiler
+    api AndroidX.coreKtx
+    api AndroidX.appcompat
+    api AndroidX.material
+    api AndroidX.constraintlayout
+    api AndroidX.extensions
+    api AndroidX.espressoCore
+    api AndroidX.multidex
+
+    api Lib.kotlin
+
+    api Ktx.fragment
+    api Ktx.ui
+    api Ktx.lifecycleViewmodelKtx
+
+    api OtherDepend.BRVAH
+    api OtherDepend.utilCode
+    api OtherDepend.bdclta
+    api OtherDepend.bdcltaRv
+    api OtherDepend.retrofit
+    api OtherDepend.retrofit_gson
+    api OtherDepend.okhttp
+    api OtherDepend.interceptor
+    api OtherDepend.coil
+    api OtherDepend.coroutines_core
+    api OtherDepend.coroutines_android
+    api OtherDepend.viewpager
+    api OtherDepend.mmkv
+    api OtherDepend.leakcanary
+    api OtherDepend.autosize
+    api OtherDepend.arout
+    api OtherDepend.pictureselector
+    api OtherDepend.material_dialogs
+    api OtherDepend.material_lifecycle
+
+}
